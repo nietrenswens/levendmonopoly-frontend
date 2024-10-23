@@ -1,24 +1,17 @@
 import { useQuery, UseQueryResult } from "@tanstack/react-query";
 import axios from "axios";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
+import Building from "../types/building";
 import { BASE_URL } from "../utils";
 
-export const teamQueryKey = ["team"];
+export const buildingsQueryKey = ["buildings"];
 
-export interface Team {
-  name: string;
-  balance: number;
-  worth: number;
-  numberOfBuildings: boolean;
-  position: number;
-}
-
-const useBuildings = (): UseQueryResult<Team> => {
+const useBuildings = (): UseQueryResult<Building[]> => {
   const authHeader = useAuthHeader();
-  return useQuery<Team>({
-    queryKey: teamQueryKey,
+  return useQuery<Building[]>({
+    queryKey: buildingsQueryKey,
     queryFn: async () => {
-      const response = await axios.get(`${BASE_URL}/me`, {
+      const response = await axios.get(`${BASE_URL}/building`, {
         headers: {
           Authorization: authHeader,
         },

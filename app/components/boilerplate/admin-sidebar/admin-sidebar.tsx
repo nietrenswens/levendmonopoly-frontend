@@ -36,7 +36,7 @@ export default function Sidebar() {
                 "w-full justify-start" +
                 (isActive("dashboard") ? " text-orange-400" : "")
               }
-              onClick={() => router.push("/player/dashboard")}
+              onClick={() => router.push("/admin/dashboard")}
             >
               <Home className="mr-2 h-4 w-4" />
               Home

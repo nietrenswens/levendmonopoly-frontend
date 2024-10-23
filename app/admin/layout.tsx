@@ -18,7 +18,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     if (!user) {
       router.replace("/");
-    } else if (user.type !== "team") {
+    } else if (user.type !== "user") {
       router.replace("/");
     }
   }, [user, router]);

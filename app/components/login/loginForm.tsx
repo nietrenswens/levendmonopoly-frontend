@@ -40,7 +40,8 @@ export default function LoginForm() {
             })
           ) {
             // Redirect or perform other actions after successful sign-in
-            router.replace("/player/dashboard");
+            if (res.data.type === "user") router.replace("/admin/dashboard");
+            else router.replace("/player/dashboard");
           }
         })
         .catch((err) => {
@@ -109,7 +110,7 @@ export default function LoginForm() {
             value={formik.values.password}
           />
           {formik.touched.password && formik.errors.password ? (
-            <ErrorText>{formik.errors.name}</ErrorText>
+            <ErrorText>{formik.errors.password}</ErrorText>
           ) : null}
         </div>
         <Button type="submit">Inloggen</Button>

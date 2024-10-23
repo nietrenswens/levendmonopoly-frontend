@@ -31,7 +31,7 @@ const chartData = [
 ];
 const chartConfig = {
   value: {
-    label: "Desktop",
+    label: "Waarde",
     color: "hsl(var(--chart-1))",
   },
   label: {
