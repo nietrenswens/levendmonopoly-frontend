@@ -5,7 +5,7 @@ import CurrentTaxRate from "@/app/components/dashboard/cards/currentTaxRate/Curr
 import RecentFinancialActions from "@/app/components/dashboard/cards/recentFinancialActions/recentFinancialActions";
 import Standings from "@/app/components/dashboard/cards/standings/standings";
 import useTeam from "@/lib/hooks/useTeam";
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import useAuthUser from "react-auth-kit/hooks/useAuthUser";
 import toast from "react-hot-toast";
 
@@ -13,6 +13,8 @@ export default function Page() {
   const authUser = useAuthUser() as { name: string };
   const team = useTeam();
   const params = useSearchParams();
+  const router = useRouter();
+
   if (team.isLoading) {
     return <div>Loading...</div>;
   } else if (team.isError) {
@@ -30,6 +32,7 @@ export default function Page() {
         id: "success",
         duration: 5000,
       });
+      router.replace("/player/dashboard");
     }
   } else if (params.get("error")) {
     if (params.get("message")) {
@@ -37,6 +40,7 @@ export default function Page() {
         id: "error",
         duration: 5000,
       });
+      router.replace("/player/dashboard");
     }
   }
 
