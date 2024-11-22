@@ -10,15 +10,18 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useSignIn from "react-auth-kit/hooks/useSignIn";
 import * as Yup from "yup";
+import Loading from "../boilerplate/loading/loading";
 import ErrorText from "../form/errorText";
 
 export default function LoginForm() {
   const SignIn = useSignIn();
   const router = useRouter();
 
+  const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const authenticateTeam = async (name: string, password: string) => {
+    setLoading(true);
     await axios
       .post(BASE_URL + "/auth", {
         name: name,
@@ -51,6 +54,7 @@ export default function LoginForm() {
           setError("Er is een fout opgetreden bij het inloggen");
         }
       });
+    setLoading(false);
   };
 
   const validationSchema = Yup.object({
@@ -107,7 +111,15 @@ export default function LoginForm() {
             <ErrorText>{formik.errors.password}</ErrorText>
           ) : null}
         </div>
-        <Button type="submit">Inloggen</Button>
+        {loading ? (
+          <div className="flex justify-center">
+            <Loading />
+          </div>
+        ) : (
+          <Button type="submit" disabled={loading}>
+            Inloggen
+          </Button>
+        )}
       </div>
     </form>
   );

@@ -32,7 +32,6 @@ const TaxPage: React.FC = () => {
   const mutation = useMutation({
     mutationKey: ["tax"],
     mutationFn: (values: { buildingId: string }) => {
-      console.log(buildingId);
       return axios
         .post(
           BASE_URL + "/admin/building/confiscate",

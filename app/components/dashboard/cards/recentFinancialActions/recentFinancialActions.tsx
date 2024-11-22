@@ -19,12 +19,9 @@ export default function RecentFinancialActions() {
 
   const extendedTransactions: ExtendedTransaction[] | undefined =
     transactions.data?.map((transaction) => {
-      console.log(`sender: ${transaction.sender}, authUser: ${authUser.id}`);
       const type = transaction.sender === authUser.id ? "expense" : "income";
       return { ...transaction, type };
     });
-
-  console.log(extendedTransactions);
 
   return (
     <Card className="h-80">

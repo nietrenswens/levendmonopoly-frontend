@@ -55,7 +55,6 @@ export default function Page() {
     },
     validationSchema: validationSchema,
     onSubmit: (values) => {
-      console.log(values);
       mutation.mutate({ ...values, roleId: values.role });
     },
   });
@@ -76,7 +75,6 @@ export default function Page() {
       toast.success("Gebruiker is aangemaakt");
     },
     onError: (err: AxiosError) => {
-      console.log(err.response?.data);
       if (err.response?.data && typeof err.response.data === "string") {
         toast.error(err.response.data);
       } else {
@@ -150,11 +148,7 @@ export default function Page() {
                 </SelectTrigger>
                 <SelectContent>
                   {roles.data?.map((role) => (
-                    <SelectItem
-                      value={role.id}
-                      key={role.id}
-                      onSelect={() => console.log(role.id)}
-                    >
+                    <SelectItem value={role.id} key={role.id}>
                       {role.name}
                     </SelectItem>
                   ))}

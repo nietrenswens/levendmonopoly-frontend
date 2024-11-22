@@ -1,7 +1,9 @@
 "use client";
 import ResetButton from "@/app/components/admin/resetButton";
+import UserSettingsForm from "@/app/components/admin/userSettingsForm";
 import Container from "@/app/components/boilerplate/container/container";
 import ErrorText from "@/app/components/form/errorText";
+import RequiredIcon from "@/app/components/form/requiredIcon";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -57,30 +59,36 @@ export default function Page() {
 
   return (
     <Container>
-      <h1 className="text-2xl font-bold">Settings</h1>
-      <form onSubmit={formik.handleSubmit} className="mt-2">
-        <div className="grid gap-4 mb-2">
-          <div className="grid gap-2">
-            <Label htmlFor="taxRate">Belastingspercentage</Label>
-            <Input
-              id="taxRate"
-              name="taxRate"
-              value={formik.values.taxRate}
-              onChange={formik.handleChange}
-              type="number"
-            />
-            {formik.touched.taxRate && formik.errors.taxRate ? (
-              <ErrorText>{formik.errors.taxRate}</ErrorText>
-            ) : null}
+      <div className="md:w-2/3 w-full md:m-auto">
+        <h1 className="text-2xl font-bold">Settings</h1>
+        <form onSubmit={formik.handleSubmit} className="mt-4">
+          <div className="grid gap-4 mb-2">
+            <div className="grid gap-2">
+              <Label htmlFor="taxRate">
+                Belastingspercentage
+                <RequiredIcon />
+              </Label>
+              <Input
+                id="taxRate"
+                name="taxRate"
+                value={formik.values.taxRate}
+                onChange={formik.handleChange}
+                type="number"
+              />
+              {formik.touched.taxRate && formik.errors.taxRate ? (
+                <ErrorText>{formik.errors.taxRate}</ErrorText>
+              ) : null}
+            </div>
           </div>
+          <Button type="submit" className="bg-green-400">
+            Opslaan
+          </Button>
+        </form>
+        <UserSettingsForm className="my-8 mb-2" />
+        <div className="mt-8">
+          <h2 className="text-xl font-bold mb-2">Bigboy acties</h2>
+          <ResetButton />
         </div>
-        <Button type="submit" className="bg-green-400">
-          Opslaan
-        </Button>
-      </form>
-      <div className="mt-8">
-        <h2 className="text-xl font-bold mb-2">Bigboy acties</h2>
-        <ResetButton />
       </div>
     </Container>
   );

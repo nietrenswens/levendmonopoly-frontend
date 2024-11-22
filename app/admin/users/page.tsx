@@ -14,7 +14,7 @@ import useUsers, { usersQueryKey } from "@/lib/hooks/admin/useUsers";
 import User from "@/lib/types/user";
 import { BASE_URL } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { User2 } from "lucide-react";
 import { useRouter } from "next/navigation";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
@@ -52,8 +52,7 @@ export default function Page() {
         queryKey: usersQueryKey,
       });
     },
-    onError: (err: AxiosError) => {
-      console.log(err);
+    onError: () => {
       toast.error(
         `Er is iets fout gegaan tijdens het verwijderen van de gebruiker`
       );
