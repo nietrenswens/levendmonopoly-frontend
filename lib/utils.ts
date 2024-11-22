@@ -1,4 +1,5 @@
 import { clsx, type ClassValue } from "clsx";
+import { Dispatch, SetStateAction } from "react";
 import { twMerge } from "tailwind-merge";
 
 export const BASE_URL =
@@ -20,3 +21,33 @@ export const convertToBase64 = (file: Blob) => {
     };
   });
 };
+
+export const handleDownload = async (
+  endpoint: string,
+  authHeader: string,
+  contentType: ContentType,
+  fileName: string,
+  setState: Dispatch<SetStateAction<TransferState>>
+) => {
+  setState("pending");
+  await fetch(`${BASE_URL}${endpoint}`, {
+    method: "GET",
+    headers: {
+      Authorization: authHeader!,
+      "Content-Type": contentType,
+    },
+  })
+    .then((response) => response.blob())
+    .then((blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = fileName;
+      a.click();
+      setState("idle");
+    });
+};
+
+export type TransferState = "idle" | "pending";
+
+type ContentType = "application/json" | "application/pdf";

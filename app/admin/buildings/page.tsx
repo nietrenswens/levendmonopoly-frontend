@@ -23,10 +23,17 @@ import useAdminBuildings, {
   buildingsQueryKey,
 } from "@/lib/hooks/admin/useAdminBuildings";
 import useTeams from "@/lib/hooks/useTeams";
-import { BASE_URL } from "@/lib/utils";
+import { BASE_URL, handleDownload, TransferState } from "@/lib/utils";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import axios from "axios";
-import { Building2, Download, Pencil, Trash } from "lucide-react";
+import {
+  Building2,
+  Download,
+  DownloadCloud,
+  Pencil,
+  Trash,
+  UploadCloud,
+} from "lucide-react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
@@ -39,7 +46,10 @@ export default function Page() {
   const queryClient = useQueryClient();
   const teams = useTeams();
 
-  const [downloadState, setDownloadState] = useState<DownloadState>("idle");
+  const [downloadPDFState, setDownloadPDFState] =
+    useState<TransferState>("idle");
+  const [downloadJSONState, setDownloadJSONState] =
+    useState<TransferState>("idle");
 
   const deleteMutation = useMutation({
     mutationFn: (id: string) => {
@@ -72,24 +82,24 @@ export default function Page() {
     deleteMutation.mutate(id);
   };
 
-  const handleDownload = async () => {
-    setDownloadState("pending");
-    await fetch(`${BASE_URL}/admin/building/export`, {
-      method: "GET",
-      headers: {
-        Authorization: authHeader!,
-        "Content-Type": "application/pdf",
-      },
-    })
-      .then((response) => response.blob())
-      .then((blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement("a");
-        a.href = url;
-        a.download = "buildings.pdf";
-        a.click();
-        setDownloadState("idle");
-      });
+  const handleJSONDownload = async () => {
+    handleDownload(
+      "/admin/building/exportjson",
+      authHeader!,
+      "application/json",
+      "buildings.json",
+      setDownloadJSONState
+    );
+  };
+
+  const handlePDFDownload = async () => {
+    handleDownload(
+      "/admin/building/export",
+      authHeader!,
+      "application/pdf",
+      "buildings.pdf",
+      setDownloadPDFState
+    );
   };
 
   return (
@@ -105,12 +115,12 @@ export default function Page() {
           &nbsp; Nieuw gebouw
         </Button>
         <Button
-          onClick={handleDownload}
+          onClick={handlePDFDownload}
           variant={"default"}
           className="bg-orange-400"
-          disabled={downloadState === "pending"}
+          disabled={downloadPDFState === "pending"}
         >
-          {downloadState === "pending" ? (
+          {downloadPDFState === "pending" ? (
             <Loading />
           ) : (
             <>
@@ -118,6 +128,29 @@ export default function Page() {
               &nbsp; PDF downloaden
             </>
           )}
+        </Button>
+        <Button
+          onClick={handleJSONDownload}
+          variant={"default"}
+          className="bg-orange-400"
+          disabled={downloadJSONState === "pending"}
+        >
+          {downloadJSONState === "pending" ? (
+            <Loading />
+          ) : (
+            <>
+              <DownloadCloud />
+              &nbsp; Data downloaden
+            </>
+          )}
+        </Button>
+        <Button
+          onClick={() => router.push("/admin/buildings/import")}
+          variant={"default"}
+          className="bg-blue-400"
+        >
+          <UploadCloud />
+          &nbsp; Gebouwen inladen
         </Button>
       </div>
       <Table className="">
@@ -198,5 +231,3 @@ export default function Page() {
     </div>
   );
 }
-
-type DownloadState = "idle" | "pending";
