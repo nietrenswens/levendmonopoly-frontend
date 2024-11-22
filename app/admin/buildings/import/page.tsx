@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { BASE_URL, TransferState } from "@/lib/utils";
-import axios, { AxiosError } from "axios";
+import axios from "axios";
 import { ChangeEvent, useState } from "react";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 import toast from "react-hot-toast";
@@ -47,8 +47,7 @@ export default function Page() {
         setUploadState("idle");
         toast.success("Gebouwen succesvol geïmporteerd");
       })
-      .catch((error: AxiosError) => {
-        console.log(error);
+      .catch(() => {
         setUploadState("idle");
         toast.error(
           "Er is iets fout gegaan bij het importeren van de gebouwen"
