@@ -6,7 +6,7 @@ import useBuilding from "@/lib/hooks/useBuilding";
 import useTeam from "@/lib/hooks/useTeam";
 import { BASE_URL } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import { useRouter } from "next/navigation";
 import useAuthHeader from "react-auth-kit/hooks/useAuthHeader";
 
@@ -44,6 +44,16 @@ export default function Page({ params }: PageProps) {
         router.replace("/player/dashboard?success=true&message=" + data.reason);
       if (!data.success)
         router.replace("/player/dashboard?error=true&message=" + data.reason);
+    },
+    onError: (error: AxiosError) => {
+      if (error.response?.status === 400) {
+        router.replace(
+          "/player/dashboard?error=true&message=" + error.response.data
+        );
+      } else
+        router.replace(
+          "/player/dashboard?error=true&message=Er is iets fout gegaan"
+        );
     },
   });
 
