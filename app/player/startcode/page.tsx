@@ -18,7 +18,7 @@ export default function Page() {
     mutationFn: () => {
       return axios
         .post(
-          BASE_URL + "/api/team/startcode",
+          BASE_URL + "/team/startcode",
           { code: startcode },
           {
             headers: {
