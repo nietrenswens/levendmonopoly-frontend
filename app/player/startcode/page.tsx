@@ -3,6 +3,7 @@ import Container from "@/app/components/boilerplate/container/container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { BASE_URL } from "@/lib/utils";
 import { useMutation } from "@tanstack/react-query";
 import axios, { AxiosError } from "axios";
 import { useState } from "react";
@@ -17,7 +18,7 @@ export default function Page() {
     mutationFn: () => {
       return axios
         .post(
-          "/api/team/startcode",
+          BASE_URL + "/api/team/startcode",
           { code: startcode },
           {
             headers: {
