@@ -2,7 +2,15 @@
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sheet, SheetContent, SheetTrigger } from "@/components/ui/sheet";
-import { Building2, DoorOpen, Home, List, Menu, Settings } from "lucide-react";
+import {
+  Building2,
+  DollarSign,
+  DoorOpen,
+  Home,
+  List,
+  Menu,
+  Settings,
+} from "lucide-react";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 import useSignOut from "react-auth-kit/hooks/useSignOut";
@@ -62,6 +70,17 @@ export default function Sidebar() {
             >
               <List className="mr-2 h-4 w-4" />
               Score
+            </Button>
+            <Button
+              variant="ghost"
+              className={
+                "w-full justify-start" +
+                (isActive("startcode") ? " text-orange-400" : "")
+              }
+              onClick={() => router.push("/player/startcode")}
+            >
+              <DollarSign className="mr-2 h-4 w-4" />
+              Startcode
             </Button>
             <Button
               variant="ghost"
