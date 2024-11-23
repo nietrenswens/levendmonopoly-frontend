@@ -1,5 +1,6 @@
 "use client";
 import useAuthCheck from "@/lib/hooks/useAuthCheck";
+import useGameSettings from "@/lib/hooks/useGameSettings";
 import NextAuth from "@auth-kit/next/NextAuth";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
@@ -14,6 +15,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const isAuth = useAuthCheck();
   const signOut = useSignOut();
+  const gameSettings = useGameSettings();
 
   useEffect(() => {
     if (!user) {
@@ -32,6 +34,11 @@ export default function Layout({ children }: { children: React.ReactNode }) {
 
   return (
     <NextAuth fallbackPath={"/"}>
+      {gameSettings.data?.paused && (
+        <div className="w-full bg-blue-400 p-6 font-bold">
+          <p>Het spel is gepauzeerd</p>
+        </div>
+      )}
       <Header />
       <div>
         <Toaster />
