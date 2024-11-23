@@ -1,3 +1,4 @@
+"use client";
 import Container from "@/app/components/boilerplate/container/container";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
