@@ -36,9 +36,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
       <div>
         <Toaster />
       </div>
-      <div className="flex">
+      <div className="flex w-full">
         <Sidebar />
-        <div className="bg-gray-50 w-full p-8">{children}</div>
+        <div className="bg-gray-50 flex-1 p-8">{children}</div>
       </div>
     </NextAuth>
   );

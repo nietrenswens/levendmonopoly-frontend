@@ -58,6 +58,7 @@ export default function Sidebar() {
                 "w-full justify-start" +
                 (isActive("scoreboard") ? " text-orange-400" : "")
               }
+              onClick={() => router.push("/player/scoreboard")}
             >
               <List className="mr-2 h-4 w-4" />
               Score
